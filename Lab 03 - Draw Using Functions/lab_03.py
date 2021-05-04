@@ -7,7 +7,7 @@ SCREEN_HEIGHT = 800
 def draw_grass():
     arcade.draw_xywh_rectangle_filled(0, 0, 1000, 200, arcade.color.LIGHT_GREEN)
 
-def bear(x, y):
+def draw_bear(x, y):
     #Body
     arcade.draw_ellipse_filled(400 + x, 230 + y, 80, 50, arcade.color.SIENNA, 0)
     arcade.draw_ellipse_filled(440 + x , 235 + y, 40, 15, arcade.color.SIENNA, 375)
@@ -26,16 +26,18 @@ def on_draw(delta_time):
     arcade.start_render()
 
     draw_grass()
-    bear(on_draw.bear1_x, 25)
-    bear(180, 25)
+    draw_bear(on_draw.bear1_x, -50)
+    draw_bear(180, 25)
     
+  
 
 
     #Moving bear to left
     on_draw.bear1_x += 1
 
-    #Creating value for X
-    on_draw.bear1_x = 50
+       
+#creating bear x
+on_draw.bear1_x = 150
 
 #main Code
 def main():
