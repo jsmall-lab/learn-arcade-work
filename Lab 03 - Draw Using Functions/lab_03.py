@@ -27,18 +27,18 @@ def on_draw(delta_time):
 
     draw_grass()
     draw_bear(on_draw.bear1_x, -50)
-    draw_bear(180, 25)
+    draw_bear(on_draw.bear2_x, 25)
     
   
 
 
     #Moving bear to left
     on_draw.bear1_x += 1
-
+    on_draw.bear2_x += 2
        
 #creating bear x
 on_draw.bear1_x = 150
-
+on_draw.bear2_x = 160
 #main Code
 def main():
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Forest")
