@@ -7,28 +7,48 @@ SCREEN_HEIGHT = 800
 def draw_grass():
     arcade.draw_xywh_rectangle_filled(0, 0, 1000, 200, arcade.color.LIGHT_GREEN)
 
-def bear():
+def bear(x, y):
     #Body
-    arcade.draw_ellipse_filled(400, 230, 80, 50, arcade.color.SIENNA, 0)
-    arcade.draw_ellipse_filled(440, 235, 40, 15, arcade.color.SIENNA, 375)
-    arcade.draw_circle_filled(455, 230, 20, arcade.color.SIENNA)
-    arcade.draw_ellipse_filled(390, 200, 50, 15, arcade.color.SIENNA, 90 )
-    arcade.draw_ellipse_filled(425, 200, 50, 15, arcade.color.SIENNA, 90 )
+    arcade.draw_ellipse_filled(400 + x, 230 + y, 80, 50, arcade.color.SIENNA, 0)
+    arcade.draw_ellipse_filled(440 + x , 235 + y, 40, 15, arcade.color.SIENNA, 375)
+    arcade.draw_circle_filled(455 + x, 230 + y, 20, arcade.color.SIENNA)#Head
+    arcade.draw_ellipse_filled(390 + x, 200 + y, 50, 15, arcade.color.SIENNA, 90)
+    arcade.draw_ellipse_filled(425 + x, 200 + y, 50, 15, arcade.color.SIENNA, 90)
+    arcade.draw_circle_filled(360 + x, 230 + y, 5,  arcade.color.SIENNA)
     
     #Eyes
+    arcade.draw_circle_filled(450 + x, 230 + y, 5, arcade.color.WHITE)
+
+    #Ears
+    arcade.draw_circle_filled(455 + x, 252.5 + y, 5, arcade.color.SIENNA)
+
+def on_draw(delta_time):
+    arcade.start_render()
+
+    draw_grass()
+    bear(on_draw.bear1_x, 25)
+    bear(180, 25)
     
+
+
+    #Moving bear to left
+    on_draw.bear1_x += 1
+
+    #Creating value for X
+    on_draw.bear1_x = 50
+
 #main Code
 def main():
     arcade.open_window(SCREEN_WIDTH, SCREEN_HEIGHT, "Forest")
     arcade.set_background_color(arcade.color.AIR_SUPERIORITY_BLUE)
-    arcade.start_render()
-
-    draw_grass()
     
-    bear()
+
+    #call_on_draw every 60th of a second
+    arcade.schedule(on_draw, 1/60)
+    arcade.run()
 
     #Finish and Run
     arcade.finish_render()
-    arcade.run()
+ 
 
 main()    
