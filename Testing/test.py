@@ -1,3 +1,10 @@
-import random
-secret_number = random.randrange(1, 101)
-h
+
+for row in range(10):
+
+    for j in range(row):
+        print(" ", end=" ")
+
+    for j in range(1 * row):
+        print(j, end=" ")
+
+    print()
