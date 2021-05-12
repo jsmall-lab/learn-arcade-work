@@ -52,24 +52,49 @@ def draw_section_3():
 
 def draw_section_4():
     # Use the modulus operator and just one 'if' statement to select the color.
-    pass
-
-
+    for row in range(30):
+        for column in range(30):
+            x = column  * (WIDTH/31) + 905
+            y = row * (HEIGHT/30) 
+            if (column % 2) == 1 or (row % 2) == 1:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.BLACK)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 def draw_section_5():
     # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
-    pass
+    for row in range(30):
+        for column in range(row  ):
+            print('', end=" ")
+        for column in range(30 - row, 30):
+            x = column * (WIDTH/30) + 900
+            y = row * (WIDTH/30) +300
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_6():
-    pass
-
+    for row in range(30):
+       
+        for column in range(row + 1):
+            x = column * (WIDTH/30) + 607
+            y = row * (WIDTH/30) +305
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 def draw_section_7():
-    pass
+    for row in range(30):
+       
+        for column in range(30 - row):
+            x = column * (WIDTH/30) + 305
+            y = row * (WIDTH/30) +305
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_8():
-    pass
+    for row in range(30):
+       
+        for column in range(row + 1, 30):
+            x = column * (WIDTH/30) 
+            y = row * (WIDTH/30) +305
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def main():
