@@ -3,8 +3,8 @@ import random
 
 
 
-WIDTH = 400
-HEIGHT = 400
+WIDTH = 800
+HEIGHT = 800
 TITLE = 'Sprites'
 
 class Game(arcade.Window):
@@ -14,7 +14,7 @@ class Game(arcade.Window):
         self.score = 0
         self.coin_list = None
         self.player = None
-        self.set_mouse_visible(False)
+        self.set_mouse_visible(True)
 
 
     def setup(self):
