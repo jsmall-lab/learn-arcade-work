@@ -7,7 +7,7 @@ TITLE = "test"
 
 CHARACTER_SCAILING = 2
 PLAYER_ACCELERATION = 0.05
-PLAYER_DEACCELERATION = 0.01
+PLAYER_DEACCELERATION = 0.02
 PLAYER_CHANGE_ANGLE_SPEED = 3
 
 class TestGame(arcade.Window):
@@ -25,7 +25,7 @@ class TestGame(arcade.Window):
 
     def setup(self):
         
-        self.player_sprite = arcade.Sprite("stuff/main_character.png.png", CHARACTER_SCAILING)
+        self.player_sprite = arcade.Sprite("practice_game_year_13/stuff/main_character.png.png", CHARACTER_SCAILING)
         self.player_sprite.center_x = 500
         self.player_sprite.center_y = 400
 
@@ -95,6 +95,10 @@ class TestGame(arcade.Window):
         if key == arcade.key.A:
             self.accelerating_left = False
             self.moving = False
+        if key == arcade.key.LEFT:
+            self.player_sprite.change_angle -= PLAYER_CHANGE_ANGLE_SPEED
+        if key == arcade.key.RIGHT:
+            self.player_sprite.change_angle -= -PLAYER_CHANGE_ANGLE_SPEED
 def main():
     window = TestGame()
     window.setup()
