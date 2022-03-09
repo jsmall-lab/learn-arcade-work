@@ -5,6 +5,7 @@ HEIGHT = 800
 TITLE = "test"
 
 CHARACTER_SCAILING = 2
+
 PLAYER_ACCELERATION = 0.05
 PLAYER_DEACCELERATION = 0.02
 PLAYER_CHANGE_ANGLE_SPEED = 3
@@ -13,7 +14,7 @@ class TestGame(arcade.Window):
     def __init__(self):
         super().__init__(WIDTH, HEIGHT, TITLE)
 
-        arcade.set_background_color(arcade.color.BLACK)
+
 
         self.player_sprite = None
 
@@ -21,8 +22,14 @@ class TestGame(arcade.Window):
 
         self.player_speed = None
 
-        self.accelerating_x = None
-        self.accelerating_y = None
+        
+        self.accelerating_up = None
+        self.accelerating_down = None
+        self.accelerating_left = None
+        self.accelerating_right = None
+        self.moving = None
+
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         
