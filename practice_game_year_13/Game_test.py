@@ -1,4 +1,3 @@
-from pickle import TRUE
 import arcade
 
 WIDTH = 1600
@@ -18,6 +17,8 @@ class TestGame(arcade.Window):
 
         self.player_sprite = None
 
+        self.scene = None
+
         self.player_speed = None
 
         self.accelerating_x = None
@@ -25,9 +26,14 @@ class TestGame(arcade.Window):
 
     def setup(self):
         
-        self.player_sprite = arcade.Sprite("practice_game_year_13/stuff/main_character.png.png", CHARACTER_SCAILING)
+        self.scene = arcade.Scene()
+        self.scene.add_sprite_list("player")
+
+        image_source = "practice_game_year_13/stuff/main_character.png.png" 
+        self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCAILING)
         self.player_sprite.center_x = 500
         self.player_sprite.center_y = 400
+        self.scene.add_sprite("player", self.player_sprite)
 
         self.player_speed = 0
         self.accelerating_up = False
