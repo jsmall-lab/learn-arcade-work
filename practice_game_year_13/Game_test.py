@@ -13,7 +13,7 @@ class TestGame(arcade.Window):
     def __init__(self):
         super().__init__(WIDTH, HEIGHT, TITLE)
 
-        arcade.set_background_color(arcade.color.BLACK)
+
 
         self.player_sprite = None
 
@@ -23,6 +23,8 @@ class TestGame(arcade.Window):
 
         self.accelerating_x = None
         self.accelerating_y = None
+
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         
