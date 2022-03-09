@@ -31,6 +31,8 @@ class TestGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+        arcade.set_background_color(arcade.color.BLACK)
+
     def setup(self):
         
         self.scene = arcade.Scene()
