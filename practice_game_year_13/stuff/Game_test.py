@@ -65,9 +65,11 @@ class TestGame(arcade.Window):
         self.clear()
 
         self.player_sprite.draw()
+        self.scene.draw()
 
     def update(self, delta_time):
-        self.player_sprite.update()
+        
+        self.scene.update()
 
         if self.accelerating_right == True:
             self.player_sprite.change_x += PLAYER_ACCELERATION
