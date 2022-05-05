@@ -8,15 +8,19 @@ TITLE = "test"
 
 CHARACTER_SCAILING = 2
 
+DEFAULT_DAMPNING = 1.0
+
 PLAYER_ACCELERATION = 0.05
 PLAYER_DEACCELERATION = 0.02
 PLAYER_CHANGE_ANGLE_SPEED = 3
 PLAYER_ANGLE_DECCELERATION = 0.03
+PLAYER_MASS = 2
+PLAYER_FRICTION = 2.0
+
 
 METEOR_MOVEMENT_CONSTANT = 7
-DEFAULT_DAMPNING = 1.0
-METEOR_MASS = 200
-METEOR_FRICTION = 0.1
+METEOR_MASS = 20
+METEOR_FRICTION = 2.0
 
 
 class TestGame(arcade.View):
@@ -72,24 +76,27 @@ class TestGame(arcade.View):
         self.moving = False
         self.moving_angle = False
         rock_choices = [
+            "meteorGrey_tiny1.png",
+            "meteorGrey_tiny2.png",
+            "meteorGrey_small1.png",
+            "meteorGrey_small2.png",
+            "meteorGrey_med1.png",
+            "meteorGrey_med2.png",
             "meteorGrey_big4.png",
             "meteorGrey_big1.png",
             "meteorGrey_big2.png",
             "meteorGrey_big3.png",
-            "meteorGrey_small1.png",
-            "meteorGrey_small2.png",
-            "meteorGrey_tiny1.png",
-            "meteorGrey_tiny2.png",
-            "meteorGrey_med1.png",
-            "meteorGrey_med2.png",
-        ]
-        for i in range(20):
+           ]
+        for i in range(0):
             rock = arcade.Sprite(
                 f":resources:images/space_shooter/{random.choice(rock_choices)}",
                 0.5 + random.random() * 2,
-                center_x=random.randint(0, WIDTH),
-                center_y=random.randint(0, HEIGHT),
+                center_x = random.randint(0, WIDTH),
+                center_y = random.randint(0, HEIGHT),
+
+
             )
+            mass = METEOR_MASS * (rock.center_y * rock.center_y ) 
             rock.change_x = (
                 random.random() * METEOR_MOVEMENT_CONSTANT
                 - METEOR_MOVEMENT_CONSTANT / 2
@@ -99,9 +106,9 @@ class TestGame(arcade.View):
                 - METEOR_MOVEMENT_CONSTANT / 2
             )
             self.scene["rocks"].append(rock)
-            self.physics_engine.add_sprite(rock, mass=METEOR_MASS*rock.width, friction=METEOR_FRICTION, elasticity=1.0, moment_of_inertia=100.0)
+            self.physics_engine.add_sprite(rock, mass=mass, friction=METEOR_FRICTION, elasticity=0.7)
             self.physics_engine.get_physics_object(rock).body.velocity = (random.randint(-100, 100), random.randint(-100, 100))
-
+        self.physics_engine.add_sprite(self.player_sprite, mass=PLAYER_MASS, friction=PLAYER_FRICTION, elasticity=0.7)
 
 
 
@@ -158,8 +165,8 @@ class TestGame(arcade.View):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
-            self.accelerating_up = True
-            self.moving = True
+            player_body = self.physics_engine.get_physics_object(self.player_sprite).body
+            player_body.apply_force_at_world_point((0, 100), (-10,-14))
         if key == arcade.key.S:
             self.accelerating_down = True
             self.moving = True
