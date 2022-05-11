@@ -1,5 +1,5 @@
 import random
-
+import math
 import arcade
 
 WIDTH = 1600
@@ -10,12 +10,13 @@ CHARACTER_SCAILING = 2
 
 DEFAULT_DAMPNING = 1.0
 
-PLAYER_ACCELERATION = 0.05
+PLAYER_ACCELERATION = 400
 PLAYER_DEACCELERATION = 0.02
 PLAYER_CHANGE_ANGLE_SPEED = 3
-PLAYER_ANGLE_DECCELERATION = 0.03
+PLAYER_ANGLE_DECCELERATION = 100
 PLAYER_MASS = 2
 PLAYER_FRICTION = 2.0
+PLAYER_MAX_SPEED = 1000
 
 
 METEOR_MOVEMENT_CONSTANT = 7
@@ -37,7 +38,7 @@ class TestGame(arcade.View):
         self.accelerating_down = None
         self.accelerating_left = None
         self.accelerating_right = None
-        self.moving = None
+        self.key_pressed = None
         self.moving_angle = None
 
         self.physics_engine = None
@@ -73,7 +74,7 @@ class TestGame(arcade.View):
         self.accelerating_down = False
         self.accelerating_left = False
         self.accelerating_right = False
-        self.moving = False
+        self.key_pressed = False
         self.moving_angle = False
         rock_choices = [
             "meteorGrey_tiny1.png",
@@ -108,7 +109,7 @@ class TestGame(arcade.View):
             self.scene["rocks"].append(rock)
             self.physics_engine.add_sprite(rock, mass=mass, friction=METEOR_FRICTION, elasticity=0.7)
             self.physics_engine.get_physics_object(rock).body.velocity = (random.randint(-100, 100), random.randint(-100, 100))
-        self.physics_engine.add_sprite(self.player_sprite, mass=PLAYER_MASS, friction=PLAYER_FRICTION, elasticity=0.7)
+        self.physics_engine.add_sprite(self.player_sprite, mass=PLAYER_MASS, friction=PLAYER_FRICTION, elasticity=0.7, moment_of_inertia=math.inf, max_horizontal_velocity=PLAYER_MAX_SPEED, max_vertical_velocity=PLAYER_MAX_SPEED)
 
 
 
@@ -123,30 +124,25 @@ class TestGame(arcade.View):
     def on_update(self, delta_time):
         self.scene.update()
 
-        self.center_camera()
+        # self.center_camera()
 
+        #Accelleration
+        player_body = self.physics_engine.get_physics_object(self.player_sprite).body
         if self.accelerating_right:
-            self.player_sprite.change_x += PLAYER_ACCELERATION
+            player_body.apply_force_at_world_point((PLAYER_ACCELERATION, 0), (0, 0))
         if self.accelerating_left:
-            self.player_sprite.change_x -= PLAYER_ACCELERATION
+            player_body.apply_force_at_world_point((-PLAYER_ACCELERATION, 0), (0, 0))
         if self.accelerating_up:
-            self.player_sprite.change_y += PLAYER_ACCELERATION
+            player_body.apply_force_at_world_point((0, PLAYER_ACCELERATION), (0, 0))
         if self.accelerating_down:
-            self.player_sprite.change_y -= PLAYER_ACCELERATION
-        if not self.moving:
-            if self.player_sprite.change_x > 0:
-                self.player_sprite.change_x -= PLAYER_DEACCELERATION
-            elif self.player_sprite.change_x < 0:
-                self.player_sprite.change_x += PLAYER_DEACCELERATION
-            if self.player_sprite.change_y > 0:
-                self.player_sprite.change_y -= PLAYER_DEACCELERATION
-            elif self.player_sprite.change_y < 0:
-                self.player_sprite.change_y += PLAYER_DEACCELERATION
-        if not self.moving_angle:
-            if self.player_sprite.change_angle < 0:
-                self.player_sprite.change_angle += PLAYER_ANGLE_DECCELERATION
-            if self.player_sprite.change_angle > 0:
-                self.player_sprite.change_angle -= PLAYER_ANGLE_DECCELERATION
+            player_body.apply_force_at_world_point((0, -PLAYER_ACCELERATION), (0, 0))
+
+        #decelleration
+                                                                                                                                                             
+        
+        
+
+
 
         for rock in self.scene["rocks"]:
             if rock.center_x < 0:
@@ -165,41 +161,31 @@ class TestGame(arcade.View):
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
-            player_body = self.physics_engine.get_physics_object(self.player_sprite).body
-            player_body.apply_force_at_world_point((0, 100), (-10,-14))
+            self.accelerating_up = True
         if key == arcade.key.S:
             self.accelerating_down = True
-            self.moving = True
+
         if key == arcade.key.D:
             self.accelerating_right = True
-            self.moving = True
+
         if key == arcade.key.A:
             self.accelerating_left = True
-            self.moving = True
-        if key == arcade.key.LEFT:
-            self.player_sprite.change_angle = PLAYER_CHANGE_ANGLE_SPEED
-            self.moving_angle = True
-        if key == arcade.key.RIGHT:
-            self.player_sprite.change_angle = -PLAYER_CHANGE_ANGLE_SPEED
-            self.moving_angle = True
+
+
 
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:
             self.accelerating_up = False
-            self.moving = False
+
         if key == arcade.key.S:
             self.accelerating_down = False
-            self.moving = False
+
         if key == arcade.key.D:
             self.accelerating_right = False
-            self.moving = False
+
         if key == arcade.key.A:
             self.accelerating_left = False
-            self.moving = False
-        if key == arcade.key.LEFT:
-            self.moving_angle = False
-        if key == arcade.key.RIGHT:
-            self.moving_angle = False
+
 
     def center_camera(self):
         screen_center_x = self.player_sprite.center_x - WIDTH / 2
