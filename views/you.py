@@ -10,13 +10,14 @@ CHARACTER_SCAILING = 2
 
 DEFAULT_DAMPNING = 1.0
 
-PLAYER_ACCELERATION = 400
+PLAYER_ACCELERATION = 3000
 PLAYER_DEACCELERATION = 0.02
 PLAYER_CHANGE_ANGLE_SPEED = 3
 PLAYER_ANGLE_DECCELERATION = 100
-PLAYER_MASS = 2
-PLAYER_FRICTION = 2.0
-PLAYER_MAX_SPEED = 1000
+PLAYER_MASS = 10
+PLAYER_FRICTION = 0.2
+PLAYER_MAX_SPEED = 215
+PLAYER_DAMPNING =0.58
 
 
 METEOR_MOVEMENT_CONSTANT = 7
@@ -88,7 +89,7 @@ class TestGame(arcade.View):
             "meteorGrey_big2.png",
             "meteorGrey_big3.png",
            ]
-        for i in range(0):
+        for i in range(20):
             rock = arcade.Sprite(
                 f":resources:images/space_shooter/{random.choice(rock_choices)}",
                 0.5 + random.random() * 2,
@@ -109,7 +110,7 @@ class TestGame(arcade.View):
             self.scene["rocks"].append(rock)
             self.physics_engine.add_sprite(rock, mass=mass, friction=METEOR_FRICTION, elasticity=0.7)
             self.physics_engine.get_physics_object(rock).body.velocity = (random.randint(-100, 100), random.randint(-100, 100))
-        self.physics_engine.add_sprite(self.player_sprite, mass=PLAYER_MASS, friction=PLAYER_FRICTION, elasticity=0.7, moment_of_inertia=math.inf, max_horizontal_velocity=PLAYER_MAX_SPEED, max_vertical_velocity=PLAYER_MAX_SPEED)
+        self.physics_engine.add_sprite(self.player_sprite, mass=PLAYER_MASS, friction=PLAYER_FRICTION, elasticity=0.4, moment_of_inertia=math.inf, max_horizontal_velocity=PLAYER_MAX_SPEED, max_vertical_velocity=PLAYER_MAX_SPEED, damping=PLAYER_DAMPNING)
 
 
 
@@ -122,9 +123,9 @@ class TestGame(arcade.View):
         self.scene.draw()
 
     def on_update(self, delta_time):
-        self.scene.update()
+        # self.scene.update()
 
-        # self.center_camera()
+        self.center_camera()
 
         #Accelleration
         player_body = self.physics_engine.get_physics_object(self.player_sprite).body
@@ -138,6 +139,7 @@ class TestGame(arcade.View):
             player_body.apply_force_at_world_point((0, -PLAYER_ACCELERATION), (0, 0))
 
         #decelleration
+        print(player_body.velocity)
                                                                                                                                                              
         
         
