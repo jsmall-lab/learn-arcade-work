@@ -137,15 +137,8 @@ class TestGame(arcade.View):
             player_body.apply_force_at_world_point((0, PLAYER_ACCELERATION), (0, 0))
         if self.accelerating_down:
             player_body.apply_force_at_world_point((0, -PLAYER_ACCELERATION), (0, 0))
-
-        #decelleration
-        print(player_body.velocity)
-                                                                                                                                                             
+                                                                                                                                                    
         
-        
-
-
-
         for rock in self.scene["rocks"]:
             if rock.center_x < 0:
                 rock.center_x = WIDTH
@@ -158,8 +151,6 @@ class TestGame(arcade.View):
 
         self.physics_engine.step()
 
-        # for rock in self.scene["rocks"]:
-        # touching = arcade.check_for_collision_with_list(rock, self.scene["rocks"])
 
     def on_key_press(self, key, modifiers):
         if key == arcade.key.W:
@@ -178,13 +169,10 @@ class TestGame(arcade.View):
     def on_key_release(self, key, modifiers):
         if key == arcade.key.W:
             self.accelerating_up = False
-
         if key == arcade.key.S:
             self.accelerating_down = False
-
         if key == arcade.key.D:
             self.accelerating_right = False
-
         if key == arcade.key.A:
             self.accelerating_left = False
 
@@ -192,11 +180,6 @@ class TestGame(arcade.View):
     def center_camera(self):
         screen_center_x = self.player_sprite.center_x - WIDTH / 2
         screen_center_y = self.player_sprite.center_y - HEIGHT / 2
-
-        # if screen_center_x < 0:
-        # screen_center_x = 0
-        # if screen_center_y < 0:
-        # screen_center_y = 0
 
         player_centered = screen_center_x, screen_center_y
         self.camera.move_to(player_centered)
