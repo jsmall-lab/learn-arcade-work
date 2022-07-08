@@ -14,10 +14,10 @@ class Game(arcade.Window):
        
 
     def setup(self):
-        self.coin = arcade.Sprite('coin.png', 0.5)
+        self.coin = arcade.Sprite('learning_arcade\coin.png', 0.5)
         self.coin.center_x = WIDTH/2 + 300
         self.coin.center_y =HEIGHT/2 + 0
-        self.player = arcade.Sprite('character.png-1.png.png', 1.5)
+        self.player = arcade.Sprite('learning_arcade\character.png-1.png.png', 1.5)
         self.player.center_x = 100
         self.player.center_y = 100
 
