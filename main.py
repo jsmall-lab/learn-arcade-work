@@ -7,19 +7,36 @@ class MyGame(arcade.Window):
 
         self.time = 0.0
 
-        shader_file_path = 'circle_1.glsl'
-        window_size = self.get_size()
-        self.shadertoy = Shadertoy(size=self.get_size(), main_source=open(shader_file_path).read())
+        shader_file_path_1 = 'circle_1.glsl'
+        shader_file_path_2 = 'explosion.glsl'
+        self.shadertoy_1 = Shadertoy(size=self.get_size(), main_source=open(shader_file_path_1).read())
+        self.shadertoy_2 = Shadertoy(size=self.get_size(), main_source=open(shader_file_path_2).read())
+        self.bob = False
+
 
     def on_draw(self):
-        self.shadertoy.program['pos'] = self.mouse['x'], self.mouse['y']
-        self.shadertoy.program['color'] = arcade.get_three_float_color(arcade.color.LIGHT_BLUE)
-        self.shadertoy.render(time=self.time)    
+        
+        self.pos = self.mouse['x'], self.mouse['y']
+        self.color = arcade.get_three_float_color(arcade.color.LIGHT_BLUE)
+        self.shadertoy_1.program['pos'] = self.pos
+        self.shadertoy_1.program['color'] = self.color
+        if self.bob:
+            self.shadertoy_2.program['pos'] = self.pos
+            self.shadertoy_2.render(time=self.time)
+        
+        self.shadertoy_1.render(time=self.time) 
+        
 
     def on_update(self, delta_time):
         self.time += delta_time
 
+    def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
+        self.bob = True
+        
+        
+
 
 if __name__ == "__main__":
-    MyGame()
+    window = MyGame()
+    window.center_window()
     arcade.run()
