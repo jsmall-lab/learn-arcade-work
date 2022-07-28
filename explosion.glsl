@@ -25,15 +25,16 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
     float alpha = 0.0;
     float timeFract = fract(iTime * 1 / BURST_TIME);
+    float brightness = 0.0;
 
     for (float i= 0.; i < PARTICLE_COUNT; i++){
         float seed = i + 1.0;
         vec2 dir = Hash12_Polar(seed);
         vec2 particlePosition = dir * MAX_PARTICLE_DISTANCE * timeFract;
         float d = length(uv - particlePosition);
-        float brightness = DEFAULT_BRIGHTNESS * (sin(timeFract * TWINKLE_SPEED + i) * .5 + .5);
+        brightness = DEFAULT_BRIGHTNESS * (sin(timeFract * TWINKLE_SPEED + i) * .5 + .5) + 1.0;
         alpha += DEFAULT_BRIGHTNESS / d;
     }
 
-    fragColor = vec4(1.0, 1.0, 1.0, alpha * (1.0 - timeFract));
+    fragColor = vec4(brightness, brightness, brightness, alpha * (1.0 - timeFract));
 }
