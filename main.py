@@ -26,9 +26,9 @@ class MyGame(arcade.Window):
         if self.bob:
             
             self.shadertoy_2.render(time=self.time)
-            if self.reset > 1.97:
-                self.bob = False
-                self.reset = 0.0
+            #if self.reset > 1.97:
+               # self.bob = False
+                #self.reset = 0.0
                 
 
         
